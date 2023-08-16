@@ -15,6 +15,7 @@ public class MenuCommand {
     public MenuCommand() {
         this.listOfCommands = new ArrayList<>();
         listOfCommands.add(new BotCommand("/start", "Начать работу с ботом"));
+        listOfCommands.add(new BotCommand("/deletemydata", "Удалить мои данные из бота"));
         listOfCommands.add(new BotCommand("/help", "Помощь по работе с ботом"));
     }
 

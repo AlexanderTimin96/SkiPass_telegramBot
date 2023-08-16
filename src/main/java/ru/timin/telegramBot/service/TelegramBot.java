@@ -17,6 +17,7 @@ import ru.timin.telegramBot.menu.MenuCommand;
 import ru.timin.telegramBot.messageBuilder.MessageBuilder;
 import ru.timin.telegramBot.model.Client;
 import ru.timin.telegramBot.repository.ClientRepository;
+import ru.timin.telegramBot.repository.SkiPassRepository;
 
 import java.util.List;
 
@@ -31,16 +32,23 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final MessageBuilder messageBuilder;
 
     private final ClientRepository clientRepository;
+    private final SkiPassRepository skiPassRepository;
 
-    public TelegramBot(@Value("${bot.token}") String botToken, MenuCommand menuCommand,
-                       InlineKeyboard inlineKeyboard, ReplyKeyboard replyKeyboard, MessageBuilder messageBuilder,
-                       ClientRepository clientRepository) {
+    public TelegramBot(@Value("${bot.token}") String botToken,
+                       MenuCommand menuCommand,
+                       InlineKeyboard inlineKeyboard,
+                       ReplyKeyboard replyKeyboard,
+                       MessageBuilder messageBuilder,
+                       ClientRepository clientRepository,
+                       SkiPassRepository skiPassRepository) {
+
         super(botToken);
 
         this.inlineKeyboard = inlineKeyboard;
         this.replyKeyboard = replyKeyboard;
         this.messageBuilder = messageBuilder;
         this.clientRepository = clientRepository;
+        this.skiPassRepository = skiPassRepository;
 
         try {
             execute(menuCommand.getMyCommands());
@@ -59,7 +67,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 if (clientRepository.findById(update.getMessage().getChatId()).isEmpty()) {
                     String response = "Привет, " +
                             update.getMessage().getChat().getFirstName() +
-                            "! \n" +
+                            "! \n " +
                             "Я - электронный кассир горнолыжного комплекса РОЗА ХУТОР." +
                             " Я всегда готов помочь тебе быстро и просто узнать и пополнить" +
                             " баланс твоего ски-пасса. \n" +
@@ -94,13 +102,22 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
 
             if (msgText.contains("/sendforallclients")) {
-                String text = msgText.substring(msgText.indexOf(" "));
+                String response = msgText.substring(msgText.indexOf(" "));
                 List<Client> listAllClients = clientRepository.findAll();
 
                 for (Client client : listAllClients) {
-                    SendMessage msg = messageBuilder.getSimpleMessage(client.getChatId(), text);
+                    SendMessage msg = messageBuilder.getSimpleMessage(client.getChatId(), response);
                     sendMessage(msg);
                 }
+            }
+
+            if (msgText.equals("/deletemydata")) {
+                clientRepository.deleteById(chatId);
+                String response = "Удаление ваших данных прошло успешно." +
+                        " К сожалению, я больше не смогу посылать тебе интересные новости и скидки! Если решишь вернуться" +
+                        " просто запусти меня заново командой: /start";
+                SendMessage msg = messageBuilder.getSimpleMessage(chatId, response);
+                sendMessage(msg);
             }
         }
 
@@ -109,7 +126,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             registerClient(update.getMessage());
             String response = "Вы успешно зарегистрировались. Жми кнопку \"Начать\" и погнали!";
             long chatId = update.getMessage().getChatId();
-            int msgId = update.getMessage().getMessageId();
 
             SendMessage msg = messageBuilder.getMessageWithInlineKeyboards(chatId, response,
                     inlineKeyboard.getInlineKeyBoardStart());
@@ -118,26 +134,37 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 
 
-        if (update.hasCallbackQuery()) {
-            String callBackData = update.getCallbackQuery().getData();
-            long chatId = update.getCallbackQuery().getMessage().getChatId();
-            int msgId = update.getCallbackQuery().getMessage().getMessageId();
-
-            if (callBackData.equals(CallbackButton.START_BUTTON.getcallback())) {
-
-                String response = "Что делать дальше? \n" +
-                        "Внизу вы видите кнопку меню. Кнопки вида \"AB12CD34 » 100₽\" " +
-                        "- это ски-пасс, привязанный к вашему тел. номеру." +
-                        " Это номер нанесен на ски-пасс.\n" +
-                        "Если такой кнопки нет - у вас нет привязанного ски-пасса, его нужно добавить кнопкой " +
-                        " \"Добавить ски-пасс\".\n" +
-                        "Для продолжения, пожалуйста, выберите ски-пасс или привяжите новый!";
-                EditMessageText msg = messageBuilder.getEditMessageText(chatId,
-                        msgId, response);
-
-                sendEditMessage(msg);
-            }
-        }
+//        if (update.hasCallbackQuery()) {
+//            String callBackData = update.getCallbackQuery().getData();
+//            long chatId = update.getCallbackQuery().getMessage().getChatId();
+//            int msgId = update.getCallbackQuery().getMessage().getMessageId();
+//
+//            if (callBackData.equals(CallbackButton.START_BUTTON.getcallback())) {
+//                if (skiPassRepository.findClientByPhone(clientRepository.findById(chatId).get().getPhone()).isPresent()) {
+//                    String response = "Привязанный к твоему номеру ски-пасс: "
+////                            + СКИПАСС НОМЕР "\n"
+////                            + "У вас доступно подъемов: "
+////                            + ПОДЪЕМЫ "\n "
+//                            + "Если вы хотите добавить подъемы нажмите кнопку \"Добавить подъемы >>\"";
+//                    EditMessageText msg = messageBuilder.getEditMessageTextWithInlineKeyboards(chatId,
+//                            msgId, response, inlineKeyboard.getInlineKeyBoardWithAddLifts());
+//                    sendEditMessage(msg);
+//                } else {
+//                    String response = "К сожалению у меня нет твоего ски-пасса. Давай добавим его! \n " +
+//                            " Жми на кнопку \"Привязать ски-пасс >>\"";
+//                    EditMessageText msg = messageBuilder.getEditMessageTextWithInlineKeyboards(chatId,
+//                            msgId, response, inlineKeyboard.getInlineKeyBoardWithAddLifts());
+//                    sendEditMessage(msg);
+//                }
+//            }
+//
+//            if (callBackData.equals(CallbackButton.ADD_LIFTS_BUTTON.getcallback())) {
+//                String response = "Тут происходит перенаправление на оплату";
+//                EditMessageText msg = messageBuilder.getEditMessageText(chatId,
+//                        msgId, response);
+//                sendEditMessage(msg);
+//            }
+//        }
     }
 
 

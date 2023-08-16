@@ -1,26 +1,22 @@
 package ru.timin.telegramBot.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
+
+import java.io.Serializable;
 
 @Entity
-@Table(name = "clients")
-public class Client {
-
+public class Client implements Serializable {
     @Id
-    @Column(name = "chat_id")
     private Long chatId;
-    @Column(name = "firstname")
     private String firstName;
-    @Column(name = "lastname")
     private String lastName;
-    @Column(name = "username")
     private String userName;
-    @Column(name = "phone")
     private String phone;
 
+    @OneToOne
+    private SkiPass skiPass;
 
     public Long getChatId() {
         return chatId;
@@ -60,5 +56,13 @@ public class Client {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public SkiPass getSkiPass() {
+        return skiPass;
+    }
+
+    public void setSkiPass(SkiPass skiPass) {
+        this.skiPass = skiPass;
     }
 }

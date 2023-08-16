@@ -24,4 +24,17 @@ public class InlineKeyboard {
         return new InlineKeyboardMarkup(rowsInLine);
     }
 
+    public InlineKeyboardMarkup getInlineKeyBoardWithAddLifts() {
+        List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
+        List<InlineKeyboardButton> firstRowInLineButtons = new ArrayList<>();
+
+        InlineKeyboardButton skiPassButton = new InlineKeyboardButton("Добавить подъемы >>");
+        skiPassButton.setCallbackData(CallbackButton.ADD_LIFTS_BUTTON.getcallback());
+
+        firstRowInLineButtons.add(skiPassButton);
+
+        rowsInLine.add(firstRowInLineButtons);
+
+        return new InlineKeyboardMarkup(rowsInLine);
+    }
 }
