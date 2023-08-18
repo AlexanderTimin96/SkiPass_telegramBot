@@ -1,13 +1,15 @@
 package ru.timin.telegramBot.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 
 @Entity
+@Data
 public class SkiPass implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long skiPassId;
 
     private String skiPassNumber;
@@ -17,35 +19,14 @@ public class SkiPass implements Serializable {
     @OneToOne(mappedBy = "skiPass", cascade = CascadeType.ALL)
     private Client client;
 
-    public long getSkiPassId() {
-        return skiPassId;
+    public SkiPass() {
+
     }
 
-    public void setSkiPassId(long skiPassId) {
+    public SkiPass(long skiPassId, String skiPassNumber, int lifts, Client client) {
         this.skiPassId = skiPassId;
-    }
-
-    public String getSkiPassNumber() {
-        return skiPassNumber;
-    }
-
-    public void setSkiPassNumber(String skiPassNumber) {
         this.skiPassNumber = skiPassNumber;
-    }
-
-    public int getLifts() {
-        return lifts;
-    }
-
-    public void setLifts(int lifts) {
         this.lifts = lifts;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
         this.client = client;
     }
 }

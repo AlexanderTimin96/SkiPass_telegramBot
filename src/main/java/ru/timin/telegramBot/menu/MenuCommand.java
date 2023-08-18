@@ -1,6 +1,5 @@
 package ru.timin.telegramBot.menu;
 
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
@@ -8,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class MenuCommand {
     List<BotCommand> listOfCommands;
 

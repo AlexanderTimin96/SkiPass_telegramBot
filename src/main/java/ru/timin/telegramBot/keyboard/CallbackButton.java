@@ -2,7 +2,8 @@ package ru.timin.telegramBot.keyboard;
 
 public enum CallbackButton {
     START_BUTTON("START_BUTTON"),
-    ADD_LIFTS_BUTTON("ADD_LIFTS_BUTTON");
+    ADD_LIFTS_BUTTON("ADD_LIFTS_BUTTON"),
+    ADD_SKI_PASS_BUTTON("ADD_SKI_PASS_BUTTON");
 
     private final String callback;
 

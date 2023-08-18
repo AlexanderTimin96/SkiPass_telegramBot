@@ -1,6 +1,5 @@
 package ru.timin.telegramBot.keyboard;
 
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -8,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class ReplyKeyboard {
     public ReplyKeyboardMarkup getReplyKeyboardRegistry() {
         List<KeyboardRow> rowsButtons = new ArrayList<>();
@@ -19,10 +17,10 @@ public class ReplyKeyboard {
 
         keyboardRow.add(registryButton);
         rowsButtons.add(keyboardRow);
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(rowsButtons);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
 
-        return new ReplyKeyboardMarkup(rowsButtons);
+        return replyKeyboardMarkup;
     }
 }
