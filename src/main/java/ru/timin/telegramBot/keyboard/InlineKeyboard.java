@@ -22,12 +22,13 @@ public class InlineKeyboard {
         return new InlineKeyboardMarkup(rowsInLine);
     }
 
-    public InlineKeyboardMarkup getInlineKeyBoardWithAddLifts() {
+    public InlineKeyboardMarkup getInlineKeyBoardWithAddLifts(String url) {
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> firstRowInLineButtons = new ArrayList<>();
 
         InlineKeyboardButton addLiftsButton = new InlineKeyboardButton("Добавить подъемы >>");
         addLiftsButton.setCallbackData(CallbackButton.ADD_LIFTS_BUTTON.getcallback());
+        addLiftsButton.setUrl(url);
 
         firstRowInLineButtons.add(addLiftsButton);
 

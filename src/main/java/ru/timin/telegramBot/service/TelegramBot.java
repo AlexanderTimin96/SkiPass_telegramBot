@@ -82,7 +82,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             registerClient(update.getMessage());
         }
 
-
         if (update.hasCallbackQuery()) {
             String callBackData = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
@@ -90,21 +89,11 @@ public class TelegramBot extends TelegramLongPollingBot {
 
             if (callBackData.equals(CallbackButton.START_BUTTON.getcallback())) {
                 responseStartButton(chatId, msgId);
-            }
-
-            if (callBackData.equals(CallbackButton.ADD_SKI_PASS_BUTTON.getcallback())) {
+            } else if (callBackData.equals(CallbackButton.ADD_SKI_PASS_BUTTON.getcallback())) {
                 responseAddSkiPassButton(chatId, msgId);
-            }
-
-            if (callBackData.equals(CallbackButton.ADD_LIFTS_BUTTON.getcallback())) {
-                String response = "Тут происходит перенаправление на оплату";
-                EditMessageText msg = messageBuilder.getEditMessageText(chatId,
-                        msgId, response);
-                sendEditMessage(msg);
             }
         }
     }
-
 
     @Override
     public String getBotUsername() {
@@ -212,10 +201,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         String response;
         if (clientRepository.findById(chatId).isPresent()) {
             Client client = clientRepository.findById(chatId).get();
-            SkiPass skiPass = skiPassRepository.findByClient(client).get();
             client.setSkiPass(null);
-            skiPass.setClient(null);
-            skiPassRepository.save(skiPass);
             clientRepository.save(client);
 
             clientRepository.deleteById(chatId);
@@ -263,7 +249,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                 + "У тебя осталось подъемов: " + skiPass.getLifts() + "\n"
                 + "Если вы хотите добавить подъемы нажмите кнопку \"Добавить подъемы >>\"";
         SendMessage msg = messageBuilder.getMessageWithInlineKeyboards(chatId,
-                response, inlineKeyboard.getInlineKeyBoardWithAddLifts());
+                response, inlineKeyboard.getInlineKeyBoardWithAddLifts("https://www.bank.ru/&skipassnumber="
+                        + skiPass.getSkiPassNumber()));
         sendMessage(msg);
     }
 
@@ -273,7 +260,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                 + "У тебя осталось подъемов: " + skiPass.getLifts() + "\n"
                 + "Если вы хотите добавить подъемы нажмите кнопку \"Добавить подъемы >>\"";
         EditMessageText msg = messageBuilder.getEditMessageTextWithInlineKeyboards(chatId,
-                msgId, response, inlineKeyboard.getInlineKeyBoardWithAddLifts());
+                msgId, response, inlineKeyboard.getInlineKeyBoardWithAddLifts("https://www.bank.ru/&skipassnumber="
+                        + skiPass.getSkiPassNumber()));
         sendEditMessage(msg);
     }
 }
