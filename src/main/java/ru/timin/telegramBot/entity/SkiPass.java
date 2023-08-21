@@ -1,4 +1,4 @@
-package ru.timin.telegramBot.model;
+package ru.timin.telegramBot.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

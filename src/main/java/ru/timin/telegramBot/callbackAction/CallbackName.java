@@ -1,13 +1,12 @@
-package ru.timin.telegramBot.keyboard;
+package ru.timin.telegramBot.callbackAction;
 
-public enum CallbackButton {
+public enum CallbackName {
     START_BUTTON("START_BUTTON"),
     ADD_LIFTS_BUTTON("ADD_LIFTS_BUTTON"),
-    ADD_SKI_PASS_BUTTON("ADD_SKI_PASS_BUTTON");
-
+    ADD_SKI_PASS("ADD_SKI_PASS");
     private final String callback;
 
-    CallbackButton(String callback) {
+    CallbackName(String callback) {
         this.callback = callback;
     }
 

@@ -8,12 +8,12 @@ import java.util.List;
 
 public class InlineKeyboard {
 
-    public InlineKeyboardMarkup getInlineKeyBoardStart() {
+    public InlineKeyboardMarkup getInlineKeyBoardWithOneButton(String buttonName, String callback) {
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> firstRowInLineButtons = new ArrayList<>();
 
-        InlineKeyboardButton startButton = new InlineKeyboardButton("Начать >>");
-        startButton.setCallbackData(CallbackButton.START_BUTTON.getcallback());
+        InlineKeyboardButton startButton = new InlineKeyboardButton(buttonName);
+        startButton.setCallbackData(callback);
 
         firstRowInLineButtons.add(startButton);
 
@@ -22,29 +22,15 @@ public class InlineKeyboard {
         return new InlineKeyboardMarkup(rowsInLine);
     }
 
-    public InlineKeyboardMarkup getInlineKeyBoardWithAddLifts(String url) {
+    public InlineKeyboardMarkup getInlineKeyBoardWithRedirect(String buttonName, String callback, String url) {
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> firstRowInLineButtons = new ArrayList<>();
 
-        InlineKeyboardButton addLiftsButton = new InlineKeyboardButton("Добавить подъемы >>");
-        addLiftsButton.setCallbackData(CallbackButton.ADD_LIFTS_BUTTON.getcallback());
+        InlineKeyboardButton addLiftsButton = new InlineKeyboardButton(buttonName);
+        addLiftsButton.setCallbackData(callback);
         addLiftsButton.setUrl(url);
 
         firstRowInLineButtons.add(addLiftsButton);
-
-        rowsInLine.add(firstRowInLineButtons);
-
-        return new InlineKeyboardMarkup(rowsInLine);
-    }
-
-    public InlineKeyboardMarkup getInlineKeyBoardWithAddSkiPass() {
-        List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
-        List<InlineKeyboardButton> firstRowInLineButtons = new ArrayList<>();
-
-        InlineKeyboardButton skiPassButton = new InlineKeyboardButton("Привязать ски-пасс >>");
-        skiPassButton.setCallbackData(CallbackButton.ADD_SKI_PASS_BUTTON.getcallback());
-
-        firstRowInLineButtons.add(skiPassButton);
 
         rowsInLine.add(firstRowInLineButtons);
 

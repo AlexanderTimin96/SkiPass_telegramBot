@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReplyKeyboard {
-    public ReplyKeyboardMarkup getReplyKeyboardRegistry() {
+    public ReplyKeyboardMarkup getReplyKeyboardWithRequestContact(String buttonName) {
         List<KeyboardRow> rowsButtons = new ArrayList<>();
         KeyboardRow keyboardRow = new KeyboardRow();
 
-        KeyboardButton registryButton = new KeyboardButton("Зарегистрироваться >>");
+        KeyboardButton registryButton = new KeyboardButton(buttonName);
         registryButton.setRequestContact(true);
 
         keyboardRow.add(registryButton);
