@@ -5,8 +5,8 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.timin.telegramBot.entity.Client;
 import ru.timin.telegramBot.callbackAction.CallbackName;
+import ru.timin.telegramBot.entity.Client;
 import ru.timin.telegramBot.keyboard.InlineKeyboard;
 import ru.timin.telegramBot.messageBuilder.MessageBuilder;
 import ru.timin.telegramBot.repository.ClientRepository;
@@ -17,7 +17,7 @@ public class Registrar {
     private final SendBotMessageService sendBotMessageService;
 
     private final MessageBuilder messageBuilder;
-    private  final InlineKeyboard inlineKeyboard;
+    private final InlineKeyboard inlineKeyboard;
 
     public Registrar(ClientRepository clientRepository, SendBotMessageService sendBotMessageService1) {
         this.clientRepository = clientRepository;
@@ -47,7 +47,7 @@ public class Registrar {
             SendMessage msg = messageBuilder.getMessageWithInlineKeyboards(message.getChatId(), response,
                     inlineKeyboard.getInlineKeyBoardWithOneButton("Начать >>", CallbackName.START_BUTTON.getcallback()));
 
-           sendBotMessageService.sendMessage(msg);
+            sendBotMessageService.sendMessage(msg);
         }
     }
 }

@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface SkiPassRepository extends JpaRepository<SkiPass, Long> {
     Optional<SkiPass> findBySkiPassNumber(String number);
+
     Optional<SkiPass> findByClient(Client client);
 }
