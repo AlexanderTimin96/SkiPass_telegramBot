@@ -52,14 +52,17 @@ docker build -t app .
 docker-compose up -d
 ```
 
-## Технологии использующиеся в проекте:
+## Технологии и паттерны использующиеся в проекте:
 
 - Spring Boot 3.1.2;
 - MAVEN;
 - Lombok;
 - Spring Data JPA;
 - PostgreSQL;
-- docker, docker-compose.
+- docker, docker-compose;
+- Внедрен паттерн Command (Команды пользователя, коллбэки кнопок), что позволяет соблюсти Open-closed principe и расширять приложения не изменяю код.
+
+  
 
 ## Тестирование приложения
 
